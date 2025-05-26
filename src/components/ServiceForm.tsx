@@ -23,8 +23,6 @@ export function ServiceForm({
   onSubmit,
   isLoading,
 }: ServiceFormProps) {
-  const showShippingInfo = serviceType === "componentes";
-
   return (
     <form onSubmit={onSubmit}>
       <div className="mb-4">
@@ -74,7 +72,7 @@ export function ServiceForm({
         </select>
       </div>
 
-      {showShippingInfo && <ShippingInfo />}
+      <ShippingInfo />
 
       <PaymentSelection
         paymentOption={paymentOption}

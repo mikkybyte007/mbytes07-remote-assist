@@ -1,7 +1,7 @@
 
 export function ShippingInfo() {
   return (
-    <div className="mt-4 p-4 bg-yellow-900/20 border border-yellow-600 rounded-lg">
+    <div className="mt-4 mb-6 p-4 bg-yellow-900/20 border border-yellow-600 rounded-lg">
       <h4 className="text-lg font-bold text-yellow-400 mb-3 font-tomorrow">
         📦 Informações para Envio
       </h4>
@@ -23,6 +23,19 @@ export function ShippingInfo() {
             <strong>💰 Política de devolução:</strong> Caso não aceite o orçamento, 
             devolvemos o produto sem custo. Apenas taxa dos correios será cobrada.
           </p>
+        </div>
+        <div className="mt-3 p-3 bg-blue-800/30 rounded border border-blue-500">
+          <p className="font-tomorrow text-blue-100 mb-2">
+            <strong>📋 Formulário dos Correios:</strong>
+          </p>
+          <a
+            href="https://www.correios.com.br/enviar/encomendas/arquivo/nacional/formulario-declaracao-de-conteudo-a5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 font-tomorrow text-sm"
+          >
+            Preencher Declaração de Conteúdo A5
+          </a>
         </div>
       </div>
     </div>
