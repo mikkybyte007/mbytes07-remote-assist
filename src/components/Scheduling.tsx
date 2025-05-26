@@ -13,7 +13,8 @@ export function Scheduling() {
   const [paymentCompleted, setPaymentCompleted] = useState(false);
 
   // URL base correta da sua API no Google Cloud Run
-  const correctApiBaseUrl = "https://mbytes07-api-509774337649.northamerica-south1.run.app";
+  const correctApiBaseUrl =
+    "https://mbytes07-api-509774337649.northamerica-south1.run.app";
 
   const getServicePrice = (service: string) => {
     switch (service) {
