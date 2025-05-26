@@ -1,7 +1,9 @@
+
 import { useState } from "react";
-import { Copy, CheckCircle } from "lucide-react";
-import { PaymentForm } from "./PaymentForm";
 import { useToast } from "@/hooks/use-toast";
+import { ServiceForm } from "./ServiceForm";
+import { PaymentSection } from "./PaymentSection";
+import { TicketDisplay } from "./TicketDisplay";
 
 export function Scheduling() {
   const [clientName, setClientName] = useState("");
@@ -12,7 +14,6 @@ export function Scheduling() {
   const [showPayment, setShowPayment] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [generatedTicketId, setGeneratedTicketId] = useState("");
-  const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
   // URL base correta da sua API no Google Cloud Run
@@ -22,15 +23,15 @@ export function Scheduling() {
   const getServicePrice = (service: string) => {
     switch (service) {
       case "avaliacao":
-        return 25; // Lembre-se que para o Stripe, o valor deve ser em centavos (ex: 2500 para R$25,00)
+        return 25;
       case "diagnostico":
       case "formatacao":
       case "instalacao":
-        return 100; // 10000 para Stripe
+        return 100;
       case "upgrade":
-        return 150; // 15000 para Stripe
+        return 150;
       default:
-        return 25; // 2500 para Stripe
+        return 25;
     }
   };
 
@@ -51,24 +52,6 @@ export function Scheduling() {
     }
   };
 
-  const copyTicketToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(generatedTicketId);
-      setCopied(true);
-      toast({
-        title: "Ticket copiado!",
-        description: "O número do ticket foi copiado para a área de transferência.",
-      });
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      toast({
-        title: "Erro ao copiar",
-        description: "Não foi possível copiar o ticket. Tente novamente.",
-        variant: "destructive",
-      });
-    }
-  };
-
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setResponseMessage("");
@@ -83,8 +66,6 @@ export function Scheduling() {
     if (paymentOption === "whatsapp") {
       handleWhatsAppPayment();
     } else {
-      // Se for pagamento direto, apenas mostra o formulário de pagamento
-      // O PaymentForm.tsx lidará com a criação do PaymentIntent
       setShowPayment(true);
     }
   };
@@ -147,14 +128,13 @@ export function Scheduling() {
     }
   };
 
-  // Esta função será chamada pelo PaymentForm APÓS um pagamento Stripe bem-sucedido
   const handlePaymentSuccess = async (paymentIntentId: string) => {
     setIsLoading(true);
     setResponseMessage(
       "Pagamento confirmado! Gerando seu ticket de serviço..."
     );
 
-    const apiUrl = `${correctApiBaseUrl}/create-ticket`; // Rota para criar o ticket no seu backend
+    const apiUrl = `${correctApiBaseUrl}/create-ticket`;
 
     try {
       console.log("Enviando dados para criar ticket (Pós-Pagamento Stripe):", {
@@ -162,7 +142,7 @@ export function Scheduling() {
         serviceType,
         paymentConfirmed: true,
         paymentMethod: "stripe",
-        stripePaymentIntentId: paymentIntentId, // Importante para referência
+        stripePaymentIntentId: paymentIntentId,
       });
 
       const response = await fetch(apiUrl, {
@@ -214,12 +194,11 @@ export function Scheduling() {
     }
   };
 
-  // Esta função será chamada pelo PaymentForm em caso de erro no pagamento Stripe
   const handlePaymentError = (errorMsg: string) => {
     setResponseMessage(
       `<p style="color: red;">Erro no pagamento: ${errorMsg}</p>`
     );
-    setShowPayment(false); // Esconde o formulário de pagamento
+    setShowPayment(false);
     setIsLoading(false);
   };
 
@@ -231,7 +210,6 @@ export function Scheduling() {
     setServiceType("avaliacao");
     setPaymentOption("direct");
     setGeneratedTicketId("");
-    setCopied(false);
   };
 
   return (
@@ -248,203 +226,48 @@ export function Scheduling() {
 
         <div className="max-w-xl mx-auto bg-gray-900 p-8 rounded-lg shadow-lg border border-gray-700">
           {!showPayment && !paymentCompleted && (
-            <form onSubmit={handleFormSubmit}>
-              <div className="mb-4">
-                <label
-                  htmlFor="clientName"
-                  className="block text-white font-medium mb-2 font-tomorrow"
-                >
-                  Seu Nome:
-                </label>
-                <input
-                  type="text"
-                  id="clientName"
-                  placeholder="Digite seu nome completo"
-                  required
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white font-tomorrow"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label
-                  htmlFor="serviceType"
-                  className="block text-white font-medium mb-2 font-tomorrow"
-                >
-                  Tipo de Serviço:
-                </label>
-                <select
-                  id="serviceType"
-                  required
-                  value={serviceType}
-                  onChange={(e) => setServiceType(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white font-tomorrow"
-                >
-                  <option value="avaliacao">Avaliação Técnica (R$ 25)</option>
-                  <option value="diagnostico">
-                    Diagnóstico e Reparo (R$ 100)
-                  </option>
-                  <option value="formatacao">Formatação (R$ 100)</option>
-                  <option value="instalacao">
-                    Instalação de Programas (R$ 100)
-                  </option>
-                  <option value="upgrade">Upgrade de Peças (R$ 150)</option>
-                </select>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-white font-medium mb-2 font-tomorrow">
-                  Forma de Pagamento:
-                </label>
-                <div className="space-y-3">
-                  <label className="flex items-center text-white font-tomorrow">
-                    <input
-                      type="radio"
-                      name="paymentOption"
-                      value="direct"
-                      checked={paymentOption === "direct"}
-                      onChange={(e) =>
-                        setPaymentOption(
-                          e.target.value as "direct" | "whatsapp"
-                        )
-                      }
-                      className="mr-3 text-blue-600"
-                    />
-                    Pagar agora na plataforma (Cartão de Crédito/PIX)
-                  </label>
-                  <label className="flex items-center text-white font-tomorrow">
-                    <input
-                      type="radio"
-                      name="paymentOption"
-                      value="whatsapp"
-                      checked={paymentOption === "whatsapp"}
-                      onChange={(e) =>
-                        setPaymentOption(
-                          e.target.value as "direct" | "whatsapp"
-                        )
-                      }
-                      className="mr-3 text-green-600"
-                    />
-                    Acertar pagamento depois via WhatsApp
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`w-full font-bold py-3 px-6 rounded-md transition-colors duration-300 font-tomorrow disabled:bg-gray-400 ${
-                  paymentOption === "direct"
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-green-600 text-white hover:bg-green-700"
-                }`}
-              >
-                {isLoading
-                  ? "Processando..."
-                  : paymentOption === "direct"
-                  ? "Prosseguir para Pagamento"
-                  : "Gerar Ticket para WhatsApp"}
-              </button>
-            </form>
+            <ServiceForm
+              clientName={clientName}
+              setClientName={setClientName}
+              serviceType={serviceType}
+              setServiceType={setServiceType}
+              paymentOption={paymentOption}
+              setPaymentOption={setPaymentOption}
+              onSubmit={handleFormSubmit}
+              isLoading={isLoading}
+            />
           )}
 
           {showPayment && !paymentCompleted && (
-            <div>
-              <h3 className="text-xl font-bold text-white mb-4 font-tomorrow text-center">
-                Pagamento Seguro
-              </h3>
-              <div className="mb-4 p-4 bg-gray-800 rounded-md border border-gray-600">
-                <p className="text-white font-tomorrow">
-                  <strong>Cliente:</strong> {clientName}
-                </p>
-                <p className="text-white font-tomorrow">
-                  <strong>Serviço:</strong> {getServiceName(serviceType)}
-                </p>
-                <p className="text-white font-tomorrow">
-                  <strong>Valor:</strong> R${" "}
-                  {getServicePrice(serviceType).toFixed(2)}
-                </p>
-              </div>
-
-              <PaymentForm
-                amount={getServicePrice(serviceType) * 100} // Envie o valor em centavos para o PaymentForm
-                clientName={clientName}
-                serviceType={getServiceName(serviceType)}
-                onPaymentSuccess={handlePaymentSuccess}
-                onPaymentError={handlePaymentError}
-              />
-
-              <button
-                onClick={() => {
-                  setShowPayment(false);
-                  setResponseMessage(""); // Limpa mensagens anteriores
-                }}
-                className="w-full mt-4 bg-gray-600 text-white font-bold py-2 px-6 rounded-md hover:bg-gray-700 transition-colors duration-300 font-tomorrow"
-              >
-                Voltar / Alterar Dados
-              </button>
-            </div>
+            <PaymentSection
+              clientName={clientName}
+              serviceType={serviceType}
+              amount={getServicePrice(serviceType)}
+              serviceName={getServiceName(serviceType)}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+              onBack={() => {
+                setShowPayment(false);
+                setResponseMessage("");
+              }}
+            />
           )}
 
           {paymentCompleted && generatedTicketId && (
-            <div className="text-center mt-6">
-              {/* Ticket Display - Maior e mais destacado */}
-              <div className="mb-8 p-8 bg-gradient-to-r from-green-600 to-green-800 rounded-xl border-2 border-green-400 shadow-2xl">
-                <h3 className="text-2xl font-bold text-white mb-4 font-tomorrow">
-                  🎫 Seu Ticket foi Gerado!
-                </h3>
-                <div className="bg-white rounded-lg p-6 mb-4">
-                  <p className="text-gray-600 font-tomorrow text-sm mb-2">
-                    NÚMERO DO TICKET
-                  </p>
-                  <div className="flex items-center justify-center gap-4">
-                    <span className="text-4xl font-bold text-gray-900 font-mono tracking-wider">
-                      {generatedTicketId}
-                    </span>
-                    <button
-                      onClick={copyTicketToClipboard}
-                      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-                      title="Copiar ticket"
-                    >
-                      {copied ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <Copy className="w-5 h-5" />
-                      )}
-                      {copied ? "Copiado!" : "Copiar"}
-                    </button>
-                  </div>
-                </div>
-                <p className="text-green-100 font-tomorrow text-sm">
-                  Guarde este número! Você precisará dele para o atendimento.
-                </p>
-              </div>
-
-              <button
-                onClick={resetForm}
-                className="bg-blue-600 text-white font-bold py-3 px-6 rounded-md hover:bg-blue-700 transition-colors duration-300 font-tomorrow"
-              >
-                Fazer Novo Agendamento
-              </button>
-            </div>
+            <TicketDisplay
+              ticketId={generatedTicketId}
+              responseMessage={responseMessage}
+              onReset={resetForm}
+            />
           )}
 
           {responseMessage &&
-            !paymentCompleted && ( // Mostra apenas se não for mensagem de sucesso final
+            !paymentCompleted && (
               <div
                 className="mt-6 p-4 border border-gray-600 rounded-md bg-gray-800"
                 dangerouslySetInnerHTML={{ __html: responseMessage }}
               />
             )}
-
-          {/* Mensagem de sucesso final, se o paymentCompleted for true e houver responseMessage */}
-          {responseMessage && paymentCompleted && (
-            <div
-              className="mt-6 p-4 border-green-500 rounded-md bg-green-900/30"
-              dangerouslySetInnerHTML={{ __html: responseMessage }}
-            />
-          )}
         </div>
       </div>
     </section>
