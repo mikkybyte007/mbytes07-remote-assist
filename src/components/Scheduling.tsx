@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { PaymentForm } from "./PaymentForm"; // Certifique-se que este componente está criado e funcional
+import { Copy, CheckCircle } from "lucide-react";
+import { PaymentForm } from "./PaymentForm";
+import { useToast } from "@/hooks/use-toast";
 
 export function Scheduling() {
   const [clientName, setClientName] = useState("");
-  const [serviceType, setServiceType] = useState("avaliacao"); // Valor padrão
-  const [paymentOption, setPaymentOption] = useState<"direct" | "whatsapp">(
-    "direct" // Valor padrão
-  );
+  const [serviceType, setServiceType] = useState("avaliacao");
+  const [paymentOption, setPaymentOption] = useState<"direct" | "whatsapp">("direct");
   const [responseMessage, setResponseMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [generatedTicketId, setGeneratedTicketId] = useState("");
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   // URL base correta da sua API no Google Cloud Run
   const correctApiBaseUrl =
@@ -45,6 +48,24 @@ export function Scheduling() {
         return "Upgrade de Peças";
       default:
         return "Avaliação Técnica";
+    }
+  };
+
+  const copyTicketToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedTicketId);
+      setCopied(true);
+      toast({
+        title: "Ticket copiado!",
+        description: "O número do ticket foi copiado para a área de transferência.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      toast({
+        title: "Erro ao copiar",
+        description: "Não foi possível copiar o ticket. Tente novamente.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -99,10 +120,10 @@ export function Scheduling() {
       setIsLoading(false);
 
       if (response.ok && result.ticketId) {
+        setGeneratedTicketId(result.ticketId);
         setResponseMessage(
           `<div style="color: green; font-weight: normal;">
              <p>${result.message}</p>
-             <p>Seu Ticket é: <strong>${result.ticketId}</strong></p>
              <p>Entre em contato pelo WhatsApp com seu ticket para acertar o pagamento e agendar o serviço.</p>
            </div>`
         );
@@ -162,16 +183,16 @@ export function Scheduling() {
       setIsLoading(false);
 
       if (response.ok && result.ticketId) {
+        setGeneratedTicketId(result.ticketId);
         setResponseMessage(
           `<div style="color: green; font-weight: normal;">
             <p>${result.message}</p>
-            <p>Seu Ticket é: <strong>${result.ticketId}</strong></p>
             <p>Pagamento confirmado! Entraremos em contato em breve para agendar seu atendimento.</p>
           </div>`
         );
         setPaymentCompleted(true);
-        setClientName(""); // Limpa o formulário
-        setShowPayment(false); // Esconde o formulário de pagamento
+        setClientName("");
+        setShowPayment(false);
       } else {
         const errorMsg =
           result.error ||
@@ -209,6 +230,8 @@ export function Scheduling() {
     setClientName("");
     setServiceType("avaliacao");
     setPaymentOption("direct");
+    setGeneratedTicketId("");
+    setCopied(false);
   };
 
   return (
@@ -364,8 +387,40 @@ export function Scheduling() {
             </div>
           )}
 
-          {paymentCompleted && (
+          {paymentCompleted && generatedTicketId && (
             <div className="text-center mt-6">
+              {/* Ticket Display - Maior e mais destacado */}
+              <div className="mb-8 p-8 bg-gradient-to-r from-green-600 to-green-800 rounded-xl border-2 border-green-400 shadow-2xl">
+                <h3 className="text-2xl font-bold text-white mb-4 font-tomorrow">
+                  🎫 Seu Ticket foi Gerado!
+                </h3>
+                <div className="bg-white rounded-lg p-6 mb-4">
+                  <p className="text-gray-600 font-tomorrow text-sm mb-2">
+                    NÚMERO DO TICKET
+                  </p>
+                  <div className="flex items-center justify-center gap-4">
+                    <span className="text-4xl font-bold text-gray-900 font-mono tracking-wider">
+                      {generatedTicketId}
+                    </span>
+                    <button
+                      onClick={copyTicketToClipboard}
+                      className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      title="Copiar ticket"
+                    >
+                      {copied ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <Copy className="w-5 h-5" />
+                      )}
+                      {copied ? "Copiado!" : "Copiar"}
+                    </button>
+                  </div>
+                </div>
+                <p className="text-green-100 font-tomorrow text-sm">
+                  Guarde este número! Você precisará dele para o atendimento.
+                </p>
+              </div>
+
               <button
                 onClick={resetForm}
                 className="bg-blue-600 text-white font-bold py-3 px-6 rounded-md hover:bg-blue-700 transition-colors duration-300 font-tomorrow"
