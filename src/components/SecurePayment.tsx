@@ -1,82 +1,108 @@
-import { useState } from 'react';
-import { Lock, Shield, CheckCircle, MessageCircle, CreditCard, QrCode } from 'lucide-react';
-import { PaymentForm } from './PaymentForm';
+import { useState } from "react";
+import {
+  Lock,
+  Shield,
+  CheckCircle,
+  MessageCircle,
+  CreditCard,
+  QrCode,
+} from "lucide-react";
+import { PaymentForm } from "./PaymentForm";
 
 export function SecurePayment() {
-  const [selectedService, setSelectedService] = useState<'evaluation' | 'standard' | 'advanced' | null>(null);
-  const [clientName, setClientName] = useState('');
-  const [paymentOption, setPaymentOption] = useState<'direct' | 'whatsapp'>('direct');
+  const [selectedService, setSelectedService] = useState<
+    "evaluation" | "standard" | "advanced" | null
+  >(null);
+  const [clientName, setClientName] = useState("");
+  const [paymentOption, setPaymentOption] = useState<"direct" | "whatsapp">(
+    "direct"
+  );
   const [showPayment, setShowPayment] = useState(false);
 
   const services = {
     evaluation: {
-      title: 'Avaliação Técnica',
-      description: 'Diagnóstico inicial do problema do seu equipamento. Ideal para entender o que precisa ser feito.',
+      title: "Avaliação Técnica",
+      description:
+        "Diagnóstico inicial do problema do seu equipamento. Ideal para entender o que precisa ser feito.",
       price: 25,
-      serviceType: 'avaliacao'
+      serviceType: "avaliacao",
     },
     standard: {
-      title: 'Suporte Padrão',
-      description: 'Ideal para diagnóstico de problemas, formatação guiada, remoção de vírus e instalação de programas.',
+      title: "Suporte Padrão",
+      description:
+        "Ideal para diagnóstico de problemas, formatação guiada, remoção de vírus e instalação de programas.",
       price: 100,
-      serviceType: 'diagnostico'
+      serviceType: "diagnostico",
     },
     advanced: {
-      title: 'Suporte Avançado', 
-      description: 'Perfeito para serviços que exigem mais tempo, como auxílio na troca de peças (SSD, HD, RAM) e configurações complexas de sistema ou jogos.',
+      title: "Suporte Avançado",
+      description:
+        "Perfeito para serviços que exigem mais tempo, como auxílio na troca de peças (SSD, HD, RAM) e configurações complexas de sistema ou jogos.",
       price: 150,
-      serviceType: 'upgrade'
-    }
+      serviceType: "upgrade",
+    },
   };
 
-  const handleServiceSelect = (serviceKey: 'evaluation' | 'standard' | 'advanced') => {
+  const handleServiceSelect = (
+    serviceKey: "evaluation" | "standard" | "advanced"
+  ) => {
     if (!clientName.trim()) {
-      alert('Por favor, digite seu nome antes de continuar');
+      alert("Por favor, digite seu nome antes de continuar");
       return;
     }
     setSelectedService(serviceKey);
-    if (paymentOption === 'direct') {
+    if (paymentOption === "direct") {
       setShowPayment(true);
     } else {
       handleWhatsAppPayment(serviceKey);
     }
   };
 
-  const handleWhatsAppPayment = async (serviceKey: 'evaluation' | 'standard' | 'advanced') => {
+  const handleWhatsAppPayment = async (
+    serviceKey: "evaluation" | "standard" | "advanced"
+  ) => {
     const service = services[serviceKey];
-    
+
     // Gerar ticket para pagamento via WhatsApp
-    const apiUrl = "https://mbytes07-api-509774337649.southamerica-east1.run.app/create-ticket";
-    
+    const apiUrl =
+      "https://mbytes07-api-509774337649.northamerica-south1.run.app/create-ticket";
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          clientName, 
-          serviceType: service.serviceType, 
+        body: JSON.stringify({
+          clientName,
+          serviceType: service.serviceType,
           paymentConfirmed: false,
-          paymentMethod: "whatsapp"
+          paymentMethod: "whatsapp",
         }),
       });
 
       const result = await response.json();
-      
+
       if (response.ok) {
-        alert(`Ticket gerado: ${result.ticketId}\nEntre em contato pelo WhatsApp com seu ticket para acertar o pagamento.`);
-        
+        alert(
+          `Ticket gerado: ${result.ticketId}\nEntre em contato pelo WhatsApp com seu ticket para acertar o pagamento.`
+        );
+
         // Redirecionar para WhatsApp
         const whatsappMessage = `Olá! Gostaria de contratar o serviço ${service.title} (R$ ${service.price}). Meu ticket é: ${result.ticketId}`;
-        window.open(`https://wa.me/5519999608356?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-        
+        window.open(
+          `https://wa.me/5519999608356?text=${encodeURIComponent(
+            whatsappMessage
+          )}`,
+          "_blank"
+        );
+
         // Reset form
         setSelectedService(null);
-        setClientName('');
+        setClientName("");
       } else {
         alert(`Erro: ${result.error}`);
       }
     } catch (error) {
-      alert('Erro ao gerar ticket. Tente novamente.');
+      alert("Erro ao gerar ticket. Tente novamente.");
     }
   };
 
@@ -84,7 +110,7 @@ export function SecurePayment() {
     alert(`Pagamento confirmado! ID: ${paymentIntentId}`);
     setShowPayment(false);
     setSelectedService(null);
-    setClientName('');
+    setClientName("");
   };
 
   const handlePaymentError = (error: string) => {
@@ -112,7 +138,7 @@ export function SecurePayment() {
                 <strong>Valor:</strong> R$ {service.price.toFixed(2)}
               </p>
             </div>
-            
+
             <PaymentForm
               amount={service.price}
               onPaymentSuccess={handlePaymentSuccess}
@@ -134,7 +160,7 @@ export function SecurePayment() {
   }
 
   return (
-    <section className="py-20" style={{ backgroundColor: '#1A202C' }}>
+    <section className="py-20" style={{ backgroundColor: "#1A202C" }}>
       <div className="container mx-auto px-4">
         {/* Título Principal */}
         <div className="text-center mb-16">
@@ -145,8 +171,9 @@ export function SecurePayment() {
             Escolha seu Serviço e Forma de Pagamento
           </h3>
           <p className="text-gray-300 max-w-4xl mx-auto text-lg font-tomorrow">
-            Pague diretamente na plataforma (cartão/PIX) ou acerte o pagamento depois via WhatsApp. 
-            Após a confirmação, seu ticket de serviço será gerado instantaneamente.
+            Pague diretamente na plataforma (cartão/PIX) ou acerte o pagamento
+            depois via WhatsApp. Após a confirmação, seu ticket de serviço será
+            gerado instantaneamente.
           </p>
         </div>
 
@@ -171,61 +198,79 @@ export function SecurePayment() {
             <h3 className="text-2xl font-bold text-center text-white mb-6 font-tomorrow">
               🎯 ESCOLHA A FORMA DE PAGAMENTO:
             </h3>
-            
+
             {/* Opções de Pagamento com Cards Visuais */}
             <div className="grid md:grid-cols-2 gap-6">
               {/* Opção 1: Pagar na Plataforma */}
-              <label className={`cursor-pointer transition-all duration-300 ${
-                paymentOption === 'direct' 
-                  ? 'transform scale-105 ring-4 ring-blue-400' 
-                  : 'hover:scale-102'
-              }`}>
+              <label
+                className={`cursor-pointer transition-all duration-300 ${
+                  paymentOption === "direct"
+                    ? "transform scale-105 ring-4 ring-blue-400"
+                    : "hover:scale-102"
+                }`}
+              >
                 <input
                   type="radio"
                   name="paymentOption"
                   value="direct"
-                  checked={paymentOption === 'direct'}
-                  onChange={(e) => setPaymentOption(e.target.value as 'direct' | 'whatsapp')}
+                  checked={paymentOption === "direct"}
+                  onChange={(e) =>
+                    setPaymentOption(e.target.value as "direct" | "whatsapp")
+                  }
                   className="sr-only"
                 />
-                <div className={`p-6 rounded-lg border-2 transition-all duration-300 ${
-                  paymentOption === 'direct'
-                    ? 'bg-blue-600 border-blue-400 text-white'
-                    : 'bg-gray-800 border-gray-600 text-gray-300 hover:border-blue-400'
-                }`}>
+                <div
+                  className={`p-6 rounded-lg border-2 transition-all duration-300 ${
+                    paymentOption === "direct"
+                      ? "bg-blue-600 border-blue-400 text-white"
+                      : "bg-gray-800 border-gray-600 text-gray-300 hover:border-blue-400"
+                  }`}
+                >
                   <div className="flex items-center justify-center mb-4">
                     <CreditCard className="w-8 h-8 mr-3" />
-                    <span className="text-xl font-bold font-tomorrow">Pagar na Plataforma</span>
+                    <span className="text-xl font-bold font-tomorrow">
+                      Pagar na Plataforma
+                    </span>
                   </div>
                   <div className="text-center">
-                    <p className="font-tomorrow mb-2">💳 Cartão até 3x sem juros</p>
+                    <p className="font-tomorrow mb-2">
+                      💳 Cartão até 3x sem juros
+                    </p>
                     <p className="font-tomorrow">🔐 PIX instantâneo</p>
                   </div>
                 </div>
               </label>
 
               {/* Opção 2: WhatsApp */}
-              <label className={`cursor-pointer transition-all duration-300 ${
-                paymentOption === 'whatsapp' 
-                  ? 'transform scale-105 ring-4 ring-green-400' 
-                  : 'hover:scale-102'
-              }`}>
+              <label
+                className={`cursor-pointer transition-all duration-300 ${
+                  paymentOption === "whatsapp"
+                    ? "transform scale-105 ring-4 ring-green-400"
+                    : "hover:scale-102"
+                }`}
+              >
                 <input
                   type="radio"
                   name="paymentOption"
                   value="whatsapp"
-                  checked={paymentOption === 'whatsapp'}
-                  onChange={(e) => setPaymentOption(e.target.value as 'direct' | 'whatsapp')}
+                  checked={paymentOption === "whatsapp"}
+                  onChange={(e) =>
+                    setPaymentOption(e.target.value as "direct" | "whatsapp")
+                  }
                   className="sr-only"
                 />
-                <div className={`p-6 rounded-lg border-2 transition-all duration-300 ${
-                  paymentOption === 'whatsapp'
-                    ? 'bg-green-600 border-green-400 text-white'
-                    : 'bg-gray-800 border-gray-600 text-gray-300 hover:border-green-400'
-                }`}>
+                <div
+                  className={`p-6 rounded-lg border-2 transition-all duration-300 ${
+                    paymentOption === "whatsapp"
+                      ? "bg-green-600 border-green-400 text-white"
+                      : "bg-gray-800 border-gray-600 text-gray-300 hover:border-green-400"
+                  }`}
+                >
                   <div className="flex items-center justify-center mb-4">
                     <MessageCircle className="w-8 h-8 mr-3" />
-                    <span className="text-xl font-bold font-tomorrow">Acertar via WhatsApp</span>
+                    <span className="text-xl font-bold font-tomorrow">
+                      Acertar via WhatsApp
+                    </span>
                   </div>
                   <div className="text-center">
                     <p className="font-tomorrow mb-2">💬 Negociar condições</p>
@@ -243,13 +288,19 @@ export function SecurePayment() {
               <div className="grid md:grid-cols-2 gap-4 text-sm">
                 <div className="text-center">
                   <CreditCard className="w-6 h-6 mx-auto mb-2 text-blue-400" />
-                  <p className="text-white font-tomorrow font-semibold">Cartão de Crédito</p>
-                  <p className="text-gray-300 font-tomorrow">Até 3x sem juros</p>
+                  <p className="text-white font-tomorrow font-semibold">
+                    Cartão de Crédito
+                  </p>
+                  <p className="text-gray-300 font-tomorrow">
+                    Até 3x sem juros
+                  </p>
                 </div>
                 <div className="text-center">
                   <QrCode className="w-6 h-6 mx-auto mb-2 text-green-400" />
                   <p className="text-white font-tomorrow font-semibold">PIX</p>
-                  <p className="text-gray-300 font-tomorrow">Chave: df040e12-4f56-40a8-8338-3dae77961dfa</p>
+                  <p className="text-gray-300 font-tomorrow">
+                    Chave: df040e12-4f56-40a8-8338-3dae77961dfa
+                  </p>
                 </div>
               </div>
             </div>
@@ -264,17 +315,22 @@ export function SecurePayment() {
               Avaliação Técnica
             </h4>
             <p className="text-gray-300 mb-6 font-tomorrow">
-              Diagnóstico inicial do problema do seu equipamento. Ideal para entender o que precisa ser feito.
+              Diagnóstico inicial do problema do seu equipamento. Ideal para
+              entender o que precisa ser feito.
             </p>
             <div className="text-center mb-6">
-              <span className="text-4xl font-bold text-white font-tomorrow">R$ 25,00</span>
+              <span className="text-4xl font-bold text-white font-tomorrow">
+                R$ 25,00
+              </span>
             </div>
             <button
-              onClick={() => handleServiceSelect('evaluation')}
+              onClick={() => handleServiceSelect("evaluation")}
               className="w-full font-bold py-4 px-6 rounded-md transition-colors duration-300 font-tomorrow text-black hover:opacity-90 flex items-center justify-center"
-              style={{ backgroundColor: '#39FF14' }}
+              style={{ backgroundColor: "#39FF14" }}
             >
-              {paymentOption === 'direct' ? 'Pagar Agora' : (
+              {paymentOption === "direct" ? (
+                "Pagar Agora"
+              ) : (
                 <>
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Gerar Ticket WhatsApp
@@ -289,17 +345,22 @@ export function SecurePayment() {
               Suporte Padrão
             </h4>
             <p className="text-gray-300 mb-6 font-tomorrow">
-              Ideal para diagnóstico de problemas, formatação guiada, remoção de vírus e instalação de programas.
+              Ideal para diagnóstico de problemas, formatação guiada, remoção de
+              vírus e instalação de programas.
             </p>
             <div className="text-center mb-6">
-              <span className="text-4xl font-bold text-white font-tomorrow">R$ 100,00</span>
+              <span className="text-4xl font-bold text-white font-tomorrow">
+                R$ 100,00
+              </span>
             </div>
             <button
-              onClick={() => handleServiceSelect('standard')}
+              onClick={() => handleServiceSelect("standard")}
               className="w-full font-bold py-4 px-6 rounded-md transition-colors duration-300 font-tomorrow text-black hover:opacity-90 flex items-center justify-center"
-              style={{ backgroundColor: '#39FF14' }}
+              style={{ backgroundColor: "#39FF14" }}
             >
-              {paymentOption === 'direct' ? 'Pagar Agora' : (
+              {paymentOption === "direct" ? (
+                "Pagar Agora"
+              ) : (
                 <>
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Gerar Ticket WhatsApp
@@ -314,17 +375,22 @@ export function SecurePayment() {
               Suporte Avançado
             </h4>
             <p className="text-gray-300 mb-6 font-tomorrow">
-              Perfeito para serviços que exigem mais tempo, como auxílio na troca de peças (SSD, HD, RAM) e configurações complexas.
+              Perfeito para serviços que exigem mais tempo, como auxílio na
+              troca de peças (SSD, HD, RAM) e configurações complexas.
             </p>
             <div className="text-center mb-6">
-              <span className="text-4xl font-bold text-white font-tomorrow">R$ 150,00</span>
+              <span className="text-4xl font-bold text-white font-tomorrow">
+                R$ 150,00
+              </span>
             </div>
             <button
-              onClick={() => handleServiceSelect('advanced')}
+              onClick={() => handleServiceSelect("advanced")}
               className="w-full font-bold py-4 px-6 rounded-md transition-colors duration-300 font-tomorrow text-black hover:opacity-90 flex items-center justify-center"
-              style={{ backgroundColor: '#39FF14' }}
+              style={{ backgroundColor: "#39FF14" }}
             >
-              {paymentOption === 'direct' ? 'Pagar Agora' : (
+              {paymentOption === "direct" ? (
+                "Pagar Agora"
+              ) : (
                 <>
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Gerar Ticket WhatsApp
@@ -344,27 +410,36 @@ export function SecurePayment() {
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-black">1</span>
               </div>
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Seleção</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Seleção
+              </h4>
               <p className="text-gray-300 font-tomorrow">
-                Escolha o serviço e a forma de pagamento (direto na plataforma ou via WhatsApp).
+                Escolha o serviço e a forma de pagamento (direto na plataforma
+                ou via WhatsApp).
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-black">2</span>
               </div>
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Pagamento</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Pagamento
+              </h4>
               <p className="text-gray-300 font-tomorrow">
-                Pague com cartão (até 3x)/PIX na plataforma ou gere um ticket para acertar via WhatsApp.
+                Pague com cartão (até 3x)/PIX na plataforma ou gere um ticket
+                para acertar via WhatsApp.
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-black">3</span>
               </div>
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Confirmação</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Confirmação
+              </h4>
               <p className="text-gray-300 font-tomorrow">
-                Receba seu ticket de serviço e entre em contato para agendar o atendimento.
+                Receba seu ticket de serviço e entre em contato para agendar o
+                atendimento.
               </p>
             </div>
           </div>
@@ -378,25 +453,32 @@ export function SecurePayment() {
               Pagamento Seguro com Stripe
             </h3>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div className="text-center">
               <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Líder Mundial</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Líder Mundial
+              </h4>
               <p className="text-gray-300 font-tomorrow">
                 A Stripe é utilizada por milhões de empresas no mundo todo.
               </p>
             </div>
             <div className="text-center">
               <Lock className="w-8 h-8 text-green-500 mx-auto mb-3" />
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Segurança Máxima</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Segurança Máxima
+              </h4>
               <p className="text-gray-300 font-tomorrow">
-                Todas as transações são criptografadas com o mais alto nível de segurança.
+                Todas as transações são criptografadas com o mais alto nível de
+                segurança.
               </p>
             </div>
             <div className="text-center">
               <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
-              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">Flexibilidade</h4>
+              <h4 className="text-xl font-semibold text-white mb-2 font-tomorrow">
+                Flexibilidade
+              </h4>
               <p className="text-gray-300 font-tomorrow">
                 Cartão até 3x, PIX ou acerte depois via WhatsApp.
               </p>
