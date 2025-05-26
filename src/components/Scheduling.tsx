@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ServiceForm } from "./ServiceForm";
@@ -23,6 +22,7 @@ export function Scheduling() {
   const getServicePrice = (service: string) => {
     switch (service) {
       case "avaliacao":
+      case "componentes":
         return 25;
       case "diagnostico":
       case "formatacao":
@@ -47,6 +47,8 @@ export function Scheduling() {
         return "Instalação de Programas";
       case "upgrade":
         return "Upgrade de Peças";
+      case "componentes":
+        return "Troca de Componentes na Placa";
       default:
         return "Avaliação Técnica";
     }

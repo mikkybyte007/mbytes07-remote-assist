@@ -1,5 +1,6 @@
 
 import { PaymentSelection } from "./PaymentSelection";
+import { ShippingInfo } from "./ShippingInfo";
 
 interface ServiceFormProps {
   clientName: string;
@@ -22,6 +23,8 @@ export function ServiceForm({
   onSubmit,
   isLoading,
 }: ServiceFormProps) {
+  const showShippingInfo = serviceType === "componentes";
+
   return (
     <form onSubmit={onSubmit}>
       <div className="mb-4">
@@ -65,8 +68,13 @@ export function ServiceForm({
             Instalação de Programas (R$ 100)
           </option>
           <option value="upgrade">Upgrade de Peças (R$ 150)</option>
+          <option value="componentes">
+            Troca de Componentes na Placa (R$ 25 - Diagnóstico)
+          </option>
         </select>
       </div>
+
+      {showShippingInfo && <ShippingInfo />}
 
       <PaymentSelection
         paymentOption={paymentOption}
