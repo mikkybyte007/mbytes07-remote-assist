@@ -1,243 +1,165 @@
 
-import {
-  Wrench,
-  RefreshCw,
-  Download,
-  HardDrive,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Monitor, Shield, Download, Cog, HardDrive, Wrench, Clock, CheckCircle } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Services = () => {
   const services = [
     {
-      icon: Wrench,
-      title: "Diagnóstico e Reparo de Problemas",
-      price: "R$ 100",
-      description:
-        "Seu computador está lento, travando ou apresentando erros? Realizamos um diagnóstico completo para identificar a causa raiz do problema e aplicamos a solução correta, otimizando o desempenho do seu sistema.",
-      features: [
-        "Análise de lentidão e travamentos",
-        "Remoção de vírus e malware",
-        "Correção de erros de sistema (Windows/macOS)",
+      icon: Monitor,
+      title: "Diagnóstico Completo",
+      description: "Análise detalhada do seu computador para identificar todos os problemas",
+      details: [
+        "Verificação de hardware e software",
+        "Teste de performance e velocidade",
+        "Identificação de vírus e malwares",
+        "Relatório completo dos problemas encontrados"
       ],
-      image: "/lovable-uploads/c56c89db-d330-421b-9fde-37b6cd1bf69f.png",
-      gradient: "bg-black/68",
+      price: "A partir de R$ 30,00"
     },
     {
-      icon: RefreshCw,
-      title: "Formatação e Instalação de Sistema",
-      price: "R$ 100",
-      description:
-        "Deixe seu computador como novo. Guiamos você passo a passo no processo de formatação e reinstalação do sistema operacional, garantindo uma máquina limpa, rápida e segura.",
-      features: [
-        "Backup de arquivos importantes (opcional)",
-        "Instalação limpa do Windows ou outro SO",
-        "Instalação de drivers essenciais",
+      icon: Shield,
+      title: "Remoção de Vírus",
+      description: "Limpeza completa de vírus, malwares e programas indesejados",
+      details: [
+        "Scan completo do sistema",
+        "Remoção de vírus e trojans",
+        "Limpeza de adwares e spywares",
+        "Instalação de antivírus gratuito"
       ],
-      image: "/lovable-uploads/71152f27-fd12-45ba-ac8a-3eea4365d1fb.png",
-      gradient: "bg-black/68",
+      price: "A partir de R$ 50,00"
     },
     {
       icon: Download,
-      title: "Instalação de Programas e Jogos",
-      price: "R$ 100",
-      description:
-        "Precisa instalar aquele software de trabalho ou o seu jogo favorito, mas está com dificuldades? Nós fazemos a instalação e configuração para você, garantindo que tudo funcione perfeitamente.",
-      features: [
-        "Instalação de pacotes de software (Office, Adobe, etc.)",
-        "Configuração de jogos e otimização de performance",
-        "Resolução de problemas de compatibilidade",
+      title: "Instalação de Programas",
+      description: "Instalação e configuração de softwares essenciais",
+      details: [
+        "Pacote Office completo",
+        "Navegadores atualizados",
+        "Drivers e atualizações",
+        "Programas personalizados"
       ],
-      image: "/lovable-uploads/fce5061a-4e52-40a8-abb1-7ee0497775d9.png",
-      gradient: "bg-black/68",
+      price: "A partir de R$ 40,00"
     },
     {
       icon: HardDrive,
-      title: "Upgrade de Peças (HD, SSD, RAM)",
-      price: "R$ 150",
-      subtitle: "Serviço Complexo",
-      description:
-        "Comprou um SSD ou mais memória RAM e precisa de ajuda para instalar? Oferecemos assistência guiada por vídeo para garantir que a troca seja feita com segurança e que o novo componente seja reconhecido e configurado corretamente pelo sistema.",
-      features: [
-        "Instruções passo a passo para instalação física",
-        "Configuração de BIOS/UEFI",
-        "Clonagem de sistema para o novo SSD",
+      title: "Formatação e Backup",
+      description: "Formatação completa com backup dos seus arquivos importantes",
+      details: [
+        "Backup completo dos documentos",
+        "Formatação e instalação do Windows",
+        "Restauração dos arquivos salvos",
+        "Configuração inicial personalizada"
       ],
-      image: "/lovable-uploads/63b22c4e-c3f2-4709-9f2c-37c20160224a.png",
-      gradient: "bg-black/68",
+      price: "A partir de R$ 80,00"
     },
+    {
+      icon: Cog,
+      title: "Otimização de Performance",
+      description: "Melhoria da velocidade e performance do computador",
+      details: [
+        "Limpeza de arquivos temporários",
+        "Desfragmentação do disco",
+        "Otimização da inicialização",
+        "Configuração de memória virtual"
+      ],
+      price: "A partir de R$ 45,00"
+    },
+    {
+      icon: Wrench,
+      title: "Manutenção Preventiva",
+      description: "Cuidados regulares para manter seu PC funcionando perfeitamente",
+      details: [
+        "Limpeza regular do sistema",
+        "Verificação de atualizações",
+        "Monitoramento de performance",
+        "Suporte técnico mensal"
+      ],
+      price: "Planos a partir de R$ 35,00/mês"
+    }
   ];
 
   return (
-    <section id="servicos" className="py-16 sm:py-20 bg-black">
+    <section id="servicos" className="py-16 sm:py-20 relative">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 sm:mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 font-tomorrow">
             Nossos Serviços de Suporte Remoto
           </h2>
-          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
-            Soluções eficientes para os problemas mais comuns do seu computador.
-            Tudo feito a distância, com seu auxílio e nossa expertise.
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            Soluções completas para todos os problemas do seu computador, 
+            realizadas remotamente com total segurança e transparência.
           </p>
         </div>
 
-        <div className="block md:hidden space-y-6 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
-              <Card key={index} className="border-0 shadow-2xl h-full bg-black overflow-hidden">
-                <div className="relative">
-                  <div className={`absolute inset-0 ${service.gradient}`} />
-                  <div
-                    className="absolute inset-0 bg-cover bg-center opacity-20"
-                    style={{ backgroundImage: `url(${service.image})` }}
-                  />
-                  <div className="relative z-10">
-                    <CardHeader className="pb-4">
-                      <div className="flex flex-col space-y-4">
-                        <div className="flex items-center justify-between">
-                          <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30">
-                            <IconComponent className="h-6 w-6 text-brand-green" />
-                          </div>
-                          <div className="text-base font-bold text-brand-green bg-black/70 backdrop-blur-sm px-3 py-1 rounded-lg">
-                            {service.price}
-                          </div>
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg text-white mb-1 font-tomorrow">
-                            {service.title}
-                          </CardTitle>
-                          {service.subtitle && (
-                            <span className="text-sm text-brand-green font-semibold">
-                              {service.subtitle}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-100 mb-4 leading-relaxed text-sm">
-                        {service.description}
-                      </p>
-                      <ul className="space-y-2 mb-6">
-                        {service.features.map((feature, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start text-gray-100 text-sm"
-                          >
-                            <div className="w-2 h-2 bg-brand-green rounded-full mr-3 flex-shrink-0 mt-2"></div>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                      <Button
-                        className="w-full bg-brand-green hover:bg-brand-green-dark text-white font-semibold transform hover:scale-105 transition-all duration-200"
-                        onClick={() =>
-                          window.open(
-                            "https://wa.me/5519999608356",
-                            "_blank"
-                          )
-                        }
-                      >
-                        Solicitar Serviço
-                      </Button>
-                    </CardContent>
+              <Card key={index} className="bg-black/50 border-brand-green/30 backdrop-blur-sm hover:bg-black/60 transition-all duration-200 h-full">
+                <CardHeader className="text-center pb-4">
+                  <div className="flex justify-center mb-4">
+                    <IconComponent className="h-12 w-12 text-brand-green" />
                   </div>
-                </div>
+                  <CardTitle className="text-white text-lg">{service.title}</CardTitle>
+                  <CardDescription className="text-gray-300 text-sm">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-2 mb-4">
+                    {service.details.map((detail, detailIndex) => (
+                      <div key={detailIndex} className="flex items-start space-x-2">
+                        <CheckCircle className="h-4 w-4 text-brand-green mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-200 text-sm">{detail}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="border-t border-brand-green/30 pt-4">
+                    <div className="text-center">
+                      <span className="text-brand-green font-semibold">{service.price}</span>
+                    </div>
+                  </div>
+                </CardContent>
               </Card>
             );
           })}
         </div>
 
-        <div className="hidden md:block">
-          <Carousel className="max-w-6xl mx-auto">
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {services.map((service, index) => {
-                const IconComponent = service.icon;
-                return (
-                  <CarouselItem
-                    key={index}
-                    className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2"
-                  >
-                    <Card className="border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 h-full bg-black overflow-hidden group">
-                      <div className="relative">
-                        <div className={`absolute inset-0 ${service.gradient}`} />
-                        <div
-                          className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                          style={{ backgroundImage: `url(${service.image})` }}
-                        />
-                        <div className="relative z-10">
-                          <CardHeader className="pb-4">
-                            <div className="flex items-start justify-between">
-                              <div className="flex items-center space-x-4">
-                                <div className="p-3 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30">
-                                  <IconComponent className="h-8 w-8 text-brand-green" />
-                                </div>
-                                <div>
-                                  <CardTitle className="text-xl text-white mb-1 font-tomorrow">
-                                    {service.title}
-                                  </CardTitle>
-                                  {service.subtitle && (
-                                    <span className="text-sm text-brand-green font-semibold">
-                                      {service.subtitle}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <div className="text-lg font-bold text-brand-green bg-black/70 backdrop-blur-sm px-3 py-1 rounded-lg">
-                                  {service.price}
-                                </div>
-                              </div>
-                            </div>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-gray-100 mb-6 leading-relaxed">
-                              {service.description}
-                            </p>
-                            <ul className="space-y-2 mb-6">
-                              {service.features.map((feature, idx) => (
-                                <li
-                                  key={idx}
-                                  className="flex items-center text-gray-100"
-                                >
-                                  <div className="w-2 h-2 bg-brand-green rounded-full mr-3 flex-shrink-0"></div>
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                            <Button
-                              className="w-full bg-brand-green hover:bg-brand-green-dark text-white font-semibold transform hover:scale-105 transition-all duration-200"
-                              onClick={() =>
-                                window.open(
-                                  "https://wa.me/5519999608356",
-                                  "_blank"
-                                )
-                              }
-                            >
-                              Solicitar Serviço
-                            </Button>
-                          </CardContent>
-                        </div>
-                      </div>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious className="bg-white/10 border-white/20 text-white hover:bg-white/20 -left-12" />
-            <CarouselNext className="bg-white/10 border-white/20 text-white hover:bg-white/20 -right-12" />
-          </Carousel>
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-black/40 p-6 rounded-lg border border-brand-green/30">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+                  <Clock className="h-5 w-5 text-brand-green mr-2" />
+                  Como Funciona o Atendimento Remoto
+                </h3>
+                <ol className="space-y-2 text-gray-200 text-sm">
+                  <li>1. <strong>Contato inicial:</strong> Via WhatsApp ou formulário</li>
+                  <li>2. <strong>Diagnóstico:</strong> Avaliação do problema</li>
+                  <li>3. <strong>Orçamento:</strong> Preço fixo e transparente</li>
+                  <li>4. <strong>Pagamento:</strong> PIX ou cartão (seguro)</li>
+                  <li>5. <strong>Acesso remoto:</strong> Conexão segura autorizada</li>
+                  <li>6. <strong>Execução:</strong> Você acompanha todo o processo</li>
+                  <li>7. <strong>Finalização:</strong> Teste e garantia do serviço</li>
+                </ol>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
+                  <Shield className="h-5 w-5 text-brand-green mr-2" />
+                  Garantias e Segurança
+                </h3>
+                <ul className="space-y-2 text-gray-200 text-sm">
+                  <li>• <strong>Conexão criptografada:</strong> Máxima segurança</li>
+                  <li>• <strong>Você mantém controle:</strong> Pode interromper a qualquer momento</li>
+                  <li>• <strong>Sem acesso a dados pessoais:</strong> Focamos apenas no problema</li>
+                  <li>• <strong>Garantia de 30 dias:</strong> Para todos os serviços</li>
+                  <li>• <strong>Suporte pós-serviço:</strong> Dúvidas esclarecidas gratuitamente</li>
+                  <li>• <strong>Satisfação garantida:</strong> Ou seu dinheiro de volta</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
