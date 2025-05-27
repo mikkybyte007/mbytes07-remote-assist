@@ -62,14 +62,23 @@ const Header = () => {
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
 
-          {/* Desktop WhatsApp Button */}
-          <Button
-            className="hidden md:flex bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-sm lg:text-base"
-            onClick={() => window.open("https://wa.me/5519991766019", "_blank")}
-          >
-            <MessageCircle className="h-4 w-4 mr-2" />
-            WhatsApp
-          </Button>
+          {/* Desktop WhatsApp Buttons */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Button
+              className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-xs lg:text-sm"
+              onClick={() => window.open("https://wa.me/5519991766019", "_blank")}
+            >
+              <MessageCircle className="h-3 w-3 mr-1" />
+              (19) 99176-6019
+            </Button>
+            <Button
+              className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-xs lg:text-sm"
+              onClick={() => window.open("https://wa.me/5519999608356", "_blank")}
+            >
+              <MessageCircle className="h-3 w-3 mr-1" />
+              (19) 99960-8356
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Navigation Menu */}
@@ -108,7 +117,17 @@ const Header = () => {
                 }}
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
-                WhatsApp
+                WhatsApp: (19) 99176-6019
+              </Button>
+              <Button
+                className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold justify-start"
+                onClick={() => {
+                  window.open("https://wa.me/5519999608356", "_blank");
+                  setIsMenuOpen(false);
+                }}
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                WhatsApp: (19) 99960-8356
               </Button>
             </nav>
           </div>
