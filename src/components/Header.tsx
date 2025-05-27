@@ -44,7 +44,7 @@ const Header = () => {
               onClick={() => scrollToSection("agendamento")}
               className="text-white hover:text-brand-green transition-colors duration-200 font-medium text-sm lg:text-base"
             >
-              Agendar
+              Solicitar Serviço
             </button>
             <button
               onClick={() => scrollToSection("seguranca")}
@@ -65,7 +65,7 @@ const Header = () => {
           {/* Desktop WhatsApp Button */}
           <Button
             className="hidden md:flex bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-sm lg:text-base"
-            onClick={() => window.open("https://wa.me/5519999608356", "_blank")}
+            onClick={() => window.open("https://wa.me/5519991766019", "_blank")}
           >
             <MessageCircle className="h-4 w-4 mr-2" />
             WhatsApp
@@ -92,7 +92,7 @@ const Header = () => {
                 onClick={() => scrollToSection("agendamento")}
                 className="text-white hover:text-brand-green transition-colors duration-200 font-medium text-left"
               >
-                Agendar
+                Solicitar Serviço
               </button>
               <button
                 onClick={() => scrollToSection("seguranca")}
@@ -103,7 +103,7 @@ const Header = () => {
               <Button
                 className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold justify-start"
                 onClick={() => {
-                  window.open("https://wa.me/5519999608356", "_blank");
+                  window.open("https://wa.me/5519991766019", "_blank");
                   setIsMenuOpen(false);
                 }}
               >

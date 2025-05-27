@@ -1,5 +1,5 @@
 
-import { Monitor, MessageCircle } from "lucide-react";
+import { Monitor, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -18,14 +18,20 @@ const Footer = () => {
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-lg md:text-xl font-semibold mb-4 text-white">Contato Rápido</h3>
-            <Button 
-              className="bg-brand-green hover:bg-brand-green-dark text-white mb-4 w-full font-semibold text-sm md:text-base"
-              onClick={() => window.open('https://wa.me/5519999608356', '_blank')}
-            >
-              <MessageCircle className="h-4 w-4 mr-2" />
-              WhatsApp: +55 (19) 99960-8356
-            </Button>
+            <h3 className="text-lg md:text-xl font-semibold mb-4 text-white">Contato</h3>
+            <div className="space-y-3">
+              <Button 
+                className="bg-brand-green hover:bg-brand-green-dark text-white mb-2 w-full font-semibold text-sm md:text-base"
+                onClick={() => window.open('https://wa.me/5519991766019', '_blank')}
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                WhatsApp: +55 (19) 99176-6019
+              </Button>
+              <div className="flex items-center justify-center md:justify-start space-x-2 text-gray-300">
+                <Mail className="h-4 w-4 text-brand-green" />
+                <span className="text-sm md:text-base">mbytes.informatica@gmail.com</span>
+              </div>
+            </div>
           </div>
           
           <div className="text-center md:text-left md:col-span-2 lg:col-span-1">

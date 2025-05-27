@@ -1,4 +1,3 @@
-
 import { MessageCircle, Calendar, Shield, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -34,7 +33,7 @@ const Hero = () => {
               size="lg"
               className="bg-brand-green hover:bg-brand-green-dark text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto"
               onClick={() =>
-                window.open("https://wa.me/5519999608356", "_blank")
+                window.open("https://wa.me/5519991766019", "_blank")
               }
             >
               <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
@@ -51,7 +50,7 @@ const Hero = () => {
               }
             >
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-              Agende seu Atendimento
+              Solicitar Serviço
             </Button>
           </div>
 
