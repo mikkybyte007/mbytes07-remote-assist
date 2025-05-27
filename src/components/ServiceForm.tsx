@@ -1,6 +1,5 @@
 
 import { PaymentSelection } from "./PaymentSelection";
-import { ShippingInfo } from "./ShippingInfo";
 
 interface ServiceFormProps {
   clientName: string;
@@ -71,8 +70,6 @@ export function ServiceForm({
           </option>
         </select>
       </div>
-
-      <ShippingInfo />
 
       <PaymentSelection
         paymentOption={paymentOption}
