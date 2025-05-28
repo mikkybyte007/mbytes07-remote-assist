@@ -70,8 +70,7 @@ const CalendlyScheduling = () => {
             <div className="bg-black/30 p-6 rounded-lg border border-brand-green/20">
               <h3 className="text-lg font-semibold text-white mb-3">Horários de Atendimento:</h3>
               <div className="text-gray-200 text-sm space-y-1">
-                <p>Segunda a Sexta: 8h às 18h</p>
-                <p>Sábado: 8h às 12h</p>
+                <p>Segunda a Sábado: 8h às 22h</p>
                 <p>Domingo: Plantão (emergências)</p>
               </div>
             </div>
