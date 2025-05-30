@@ -87,7 +87,7 @@ export function SecurePayment() {
         // Redirecionar para WhatsApp
         const whatsappMessage = `Olá! Gostaria de contratar o serviço ${service.title} (R$ ${service.price}). Meu ticket é: ${result.ticketId}`;
         window.open(
-          `https://wa.me/5519999608356?text=${encodeURIComponent(
+          `https://wa.me/5519993714912?text=${encodeURIComponent(
             whatsappMessage
           )}`,
           "_blank"

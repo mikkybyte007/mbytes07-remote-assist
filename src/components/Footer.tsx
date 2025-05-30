@@ -22,17 +22,10 @@ const Footer = () => {
             <div className="space-y-3">
               <Button 
                 className="bg-brand-green hover:bg-brand-green-dark text-white mb-2 w-full font-semibold text-sm md:text-base"
-                onClick={() => window.open('https://wa.me/5519991766019', '_blank')}
+                onClick={() => window.open('https://wa.me/5519993714912', '_blank')}
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
-                WhatsApp: +55 (19) 99176-6019
-              </Button>
-              <Button 
-                className="bg-brand-green hover:bg-brand-green-dark text-white mb-2 w-full font-semibold text-sm md:text-base"
-                onClick={() => window.open('https://wa.me/5519999608356', '_blank')}
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                WhatsApp: +55 (19) 99960-8356
+                WhatsApp: +55 (19) 99371-4912
               </Button>
               <div className="flex items-center justify-center md:justify-start space-x-2 text-gray-300">
                 <Mail className="h-4 w-4 text-brand-green" />

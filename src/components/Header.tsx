@@ -62,21 +62,14 @@ const Header = () => {
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
 
-          {/* Desktop WhatsApp Buttons */}
-          <div className="hidden md:flex items-center space-x-2">
+          {/* Desktop WhatsApp Button */}
+          <div className="hidden md:flex items-center">
             <Button
               className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-xs lg:text-sm"
-              onClick={() => window.open("https://wa.me/5519991766019", "_blank")}
+              onClick={() => window.open("https://wa.me/5519993714912", "_blank")}
             >
               <MessageCircle className="h-3 w-3 mr-1" />
-              (19) 99176-6019
-            </Button>
-            <Button
-              className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold text-xs lg:text-sm"
-              onClick={() => window.open("https://wa.me/5519999608356", "_blank")}
-            >
-              <MessageCircle className="h-3 w-3 mr-1" />
-              (19) 99960-8356
+              (19) 99371-4912
             </Button>
           </div>
         </div>
@@ -112,22 +105,12 @@ const Header = () => {
               <Button
                 className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold justify-start"
                 onClick={() => {
-                  window.open("https://wa.me/5519991766019", "_blank");
+                  window.open("https://wa.me/5519993714912", "_blank");
                   setIsMenuOpen(false);
                 }}
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
-                WhatsApp: (19) 99176-6019
-              </Button>
-              <Button
-                className="bg-brand-green hover:bg-brand-green-dark text-white font-semibold justify-start"
-                onClick={() => {
-                  window.open("https://wa.me/5519999608356", "_blank");
-                  setIsMenuOpen(false);
-                }}
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
-                WhatsApp: (19) 99960-8356
+                WhatsApp: (19) 99371-4912
               </Button>
             </nav>
           </div>
